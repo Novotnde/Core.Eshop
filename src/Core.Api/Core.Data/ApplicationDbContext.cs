@@ -1,4 +1,7 @@
-﻿using Core.Contracts.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Core.Contracts.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core.Data

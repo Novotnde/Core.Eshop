@@ -15,6 +15,5 @@ namespace Core.Contracts.Contracts
         Task<Product> GetProductByIdAsync(int id);
 
         Task UpdateProductDescriptionAsync(int id, string description);
-
     }
 }

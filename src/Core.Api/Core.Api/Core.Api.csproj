@@ -35,7 +35,6 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Core.Contracts\Core.Contracts.csproj" />
 	  <ProjectReference Include="..\..\Core.Logic\Core.Logic.csproj" />
-	  <ProjectReference Include="..\Core.Data\Core.Data.csproj" />
 	</ItemGroup>
 
 </Project>
