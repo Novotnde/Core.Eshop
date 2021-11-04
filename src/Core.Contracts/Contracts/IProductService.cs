@@ -1,16 +1,14 @@
-﻿using Core.Contracts.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Contracts.Models;
 
 namespace Core.Contracts.Contracts
 {
     public interface IProductService
     {
-        Task CreateProductAsync(Product product);
-
-        Products GetProductsAsync();
+        Products GetProducts();
 
         Task<Product> GetProductByIdAsync(int id);
 

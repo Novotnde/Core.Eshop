@@ -6,6 +6,6 @@ namespace Core.Contracts.Models
 {
     public class Products
     {
-        public IEnumerable<Product> Items  { get; set; }
+        public IEnumerable<Product> Items { get; set; }
     }
 }
