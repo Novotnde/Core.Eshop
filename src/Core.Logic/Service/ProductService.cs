@@ -1,66 +1,40 @@
-﻿using Core.Contracts.Contracts;
+﻿using System.Threading.Tasks;
+using AutoMapper;
+using Core.Contracts.Contracts;
 using Core.Contracts.Models;
-using Core.Data;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
+using Core.DataAccess.ContractsDAL;
+using Core.DataAccess.ModelDAL;
 
 namespace Core.Logic.Service
 {
     public class ProductService : IProductService
     {
-        ApplicationDbContext _db;
+        private readonly IProductRepository _productRepository;
+        private readonly IMapper _mapper;
 
-        public ProductService(ApplicationDbContext applicationDbContext)
+        public ProductService(IProductRepository productRepository,IMapper mapper )
         {
-            _db = applicationDbContext;
-        }
-
-        public async Task CreateProductAsync(Product product)
-        {
-            var newProduct = new Product()
-            {
-                Name = product.Name,
-                ImgUri = product.ImgUri,
-                Description = product.Description,
-                Price = product.Price
-            };
-
-            await _db.Product.AddAsync(newProduct);
-            await _db.SaveChangesAsync();
+            _productRepository = productRepository;
+            _mapper = mapper;
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            var result = await _db.Product.FindAsync(id);
-            return result;
+            var product = await _productRepository.GetProductByIdAsync(id);
+            var mappedProduct = _mapper.Map<Product>(product);
+            return mappedProduct;
         }
 
-        public Products GetProductsAsync()
+        public Products GetProducts()
         {
-            var products = new Products();
-            var result = _db.Product.ToList();
-            products.Items = result;
-            return products;
+            var products = _productRepository.GetProducts();
+            var mappedProducts = _mapper.Map<Products>(products);
+            return mappedProducts;
         }
 
         public async Task UpdateProductDescriptionAsync(int id, string description)
         {
-
-            var productToUpdate = _db.Product.Where(p => p.Id == id).FirstOrDefault();
-
-            if(productToUpdate.Description == null)
-            {
-                productToUpdate.Description = description;
-                await _db.Product.AddAsync(productToUpdate);
-                await _db.SaveChangesAsync();
-            }
-            else
-            {
-                productToUpdate.Description = description;
-                _db.Product.Update(productToUpdate);
-                await _db.SaveChangesAsync();
-            }
+            await _productRepository.UpdateProductsDescriptionAsync(id, description);
         }
     }
 }

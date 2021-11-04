@@ -1,8 +1,6 @@
-﻿using Core.Contracts.Contracts;
+﻿using System;
+using Core.Contracts.Contracts;
 using Core.Logic.Service;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

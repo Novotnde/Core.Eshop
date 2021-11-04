@@ -6,10 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core.Api\Core.Data\Core.Data.csproj" />
+    <ProjectReference Include="..\Core.ApiPipeline\Core.ApiPipeline.csproj" />
+    <ProjectReference Include="..\Core.DataAccess\Core.DataAccess.csproj" />
     <ProjectReference Include="..\Core.Contracts\Core.Contracts.csproj" />
   </ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="10.1.1" />
 		<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.2">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
