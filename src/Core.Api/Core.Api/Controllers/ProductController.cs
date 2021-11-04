@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿
 using System.Threading.Tasks;
-using Core.Contracts;
+using AutoMapper;
+using Core.Api.Models.Response;
 using Core.Contracts.Contracts;
 using Core.Contracts.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -14,39 +14,41 @@ namespace Core.Api.Controllers
     [Route("[controller]")]
     public class ProductController : Controller
     {
-
         private readonly ILogger<ProductController> _logger;
         private readonly IProductService _productService;
+        private readonly IMapper _mapper;
 
-        public ProductController(ILogger<ProductController> logger, IProductService productService)
+        public ProductController(ILogger<ProductController> logger, IProductService productService, IMapper mapper)
         {
             _logger = logger;
             _productService = productService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         [Route("{id}")]
-        public IActionResult GetProductById(int id)
+        [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetProductByIdAsync(int id)
         {
-            var products = _productService.GetProductByIdAsync(id);
-            return Ok(products);
+            var product = await _productService.GetProductByIdAsync(id);
+            var mapperProduct = _mapper.Map<ProductResponse>(product);
+            return Ok(mapperProduct);
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(ProductsResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProductsResponse), StatusCodes.Status400BadRequest)]
         public IActionResult GetProducts()
         {
-            var products = _productService.GetProductsAsync();
-            return Ok(products);
-        }
-
-        [HttpPost]
-        public IActionResult CreateProduct([FromBody] Product product)
-        {
-            var result = _productService.CreateProductAsync(product);
-            return Ok(result);
+            var products = _productService.GetProducts();
+            var mapperProducts = _mapper.Map<ProductsResponse>(products);
+            return Ok(mapperProducts);
         }
 
         [HttpPut]
+        [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status400BadRequest)]
         public IActionResult UpdateProductDescription(int id, string description)
         {
             var result = _productService.UpdateProductDescriptionAsync(id, description);
