@@ -1,3 +1,8 @@
+
+using Core.Contracts.Models;
+using Core.DataAccess.ContractsDAL;
+using Core.DataAccess.ModelDAL;
+using Moq;
 using NUnit.Framework;
 
 namespace Core.Test
@@ -12,7 +17,8 @@ namespace Core.Test
         [Test]
         public void Test1()
         {
-            Assert.Pass();
+            var mockRepository = new Mock<IProductRepository>();
+            mockRepository.Setup(x => x.GetProductByIdAsync(42)).ReturnsAsync(new ProductDAL());
         }
     }
 }
