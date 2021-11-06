@@ -18,5 +18,9 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Core.Api\Database.CatalogDb.Contracts\Database.CatalogDb.Contracts.csproj" />
+	  <ProjectReference Include="..\Core.Api\Core.Utils\Core.Utils.csproj" />
+	</ItemGroup>
 
 </Project>

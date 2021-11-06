@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Core.ApiPipeline;
 using Core.Contracts.Models;
-using Core.DataAccess.ModelDAL;
+using Database.CatalogDb.EFCore.ModelDAL;
 
 namespace Core.Logic.Profiles
 {
