@@ -22,7 +22,7 @@ namespace Core.Logic.Service
         public async Task<Product?> GetProductByIdAsync(int id, CancellationToken cancellationToken)
         {
             var product = await _productRepository.GetProductByIdAsync(id, cancellationToken);
-            var mappedProduct = _mapper.Map<Product>(product);
+            var mappedProduct = _mapper.Map<Product?>(product);
             return mappedProduct;
         }
 

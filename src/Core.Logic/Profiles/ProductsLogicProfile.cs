@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Core.ApiPipeline;
+﻿using System.Collections.Generic;
 using Core.Contracts.Models;
-using Database.CatalogDb.EFCore.ModelDAL;
+using Core.Utils;
+using Database.CatalogDb.Contracts.Dtos;
 
 namespace Core.Logic.Profiles
 {
@@ -12,10 +10,9 @@ namespace Core.Logic.Profiles
         public ProductsLogicProfile()
         {
             //FROMTO
-            CreateMap<ProductsDAL, Products>();
-            CreateMap<ProductDAL, Product>();
-            CreateMap<Products, ProductsDAL>();
-            CreateMap<Product, ProductDAL>();
+            CreateMap<ProductDto, Product>();
+            CreateMap<IEnumerable<ProductDto>, Products>()
+                .ForMember(p => p.Items, s => s.MapFrom(x => x));
         }
     }
 }

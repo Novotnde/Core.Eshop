@@ -22,7 +22,7 @@ namespace Database.CatalogDb.EFCore.Service
 
         public async Task<IReadOnlyList<ProductDto>> GetProductsAsync(CancellationToken cancellationToken)
         {
-            var result = await _db.Product
+            var result = await _db.Products
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
             return _mapper.Map<List<ProductDto>>(result);
@@ -30,17 +30,17 @@ namespace Database.CatalogDb.EFCore.Service
 
         public async Task<ProductDto?> GetProductByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var result = await _db.Product
+            var result = await _db.Products
                 .AsNoTracking()
                 .Where(p => p.Id == id)
                 .FirstOrDefaultAsync(cancellationToken);
-            return _mapper.Map<ProductDto>(result);
+            return _mapper.Map<ProductDto?>(result);
         }
 
         public async Task<bool> TryUpdateProductsDescriptionAsync(int id, string description, CancellationToken cancellationToken)
         {
 
-            var productToUpdate = await _db.Product
+            var productToUpdate = await _db.Products
                 .AsNoTracking()
                 .Where(p => p.Id == id)
                 .FirstOrDefaultAsync(cancellationToken);

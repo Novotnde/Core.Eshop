@@ -4,6 +4,8 @@
     <TargetFramework>net5.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <RootNamespace>Core.Test</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core.Contracts\Core.Contracts.csproj" />
-    <ProjectReference Include="..\Core.DataAccess\Core.DataAccess.csproj" />
+    <ProjectReference Include="..\Database.CatalogDb.EFCore\Database.CatalogDb.EFCore.csproj" />
   </ItemGroup>
 
 </Project>

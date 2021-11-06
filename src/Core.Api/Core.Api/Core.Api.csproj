@@ -7,9 +7,12 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.11" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />
   </ItemGroup>
 	<ItemGroup>
 		<Content Remove="appsettings.json" />
+	
 		<EmbeddedResource Include="appsettings.json">
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -27,10 +30,10 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Models\Request\" />
+	  <ProjectReference Include="..\..\Core.Logic\Core.Logic.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Core.Logic\Core.Logic.csproj" />
+	  <Folder Include="Models\Request" />
 	</ItemGroup>
 
 </Project>
