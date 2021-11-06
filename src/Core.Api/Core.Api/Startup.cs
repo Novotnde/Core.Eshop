@@ -3,6 +3,7 @@ using Core.Api.Models.Response;
 using Core.Api.Profiles;
 using Core.ApiPipeline.ErrorHandling;
 using Core.Logic.Profiles;
+using Database.CatalogDb.EFCore.Profiles;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -33,10 +34,12 @@ namespace Core.Api
 
             services.AddAutoMapper(typeof(ProductsLogicProfile));
             services.AddAutoMapper(typeof(ProductsApiProfile));
+            services.AddAutoMapper(typeof(ProductsDbProfile));
 
             services.AddControllers();
 
             services.AddServicesForCoreLogic();
+            services.AddServicesForDatabaseCatalogEFCore();
             services.AddSqlCatalogDb(_configuration);
 
             services.AddApiVersioning(setup =>

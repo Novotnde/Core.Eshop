@@ -11,13 +11,13 @@ namespace Database.CatalogDb.EFCore
         {
         }
 
-        public DbSet<ProductEntity> Products { get; set; }
+        public DbSet<ProductEntity> Product { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             if (modelBuilder == null) throw new ArgumentNullException(nameof(modelBuilder));
 
-            modelBuilder.Entity<ProductEntity>().ToTable(nameof(Products));
+            modelBuilder.Entity<ProductEntity>().ToTable(nameof(Product));
         }
     }
 }

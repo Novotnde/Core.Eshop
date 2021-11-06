@@ -9,7 +9,6 @@ namespace Core.Api.Profiles
     {
         public ProductsApiProfile()
         {
-            //FROMTO
             CreateValidMap<Products, ProductsResponse>();
             CreateValidMap<Product, ProductResponse>();
         }

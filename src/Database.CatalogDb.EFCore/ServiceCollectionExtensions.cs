@@ -13,11 +13,28 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddSqlCatalogDb(
          this IServiceCollection services, IConfiguration configuration )
         {
-            if (services == null) throw new ArgumentNullException(nameof(services));
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+
             services.AddDbContext<CatalogDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("CatalogDb")));
 
             //Todo samostatna metoda
+            services.AddTransient<IProductRepository, ProductRepository>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddServicesForDatabaseCatalogEFCore(
+        this IServiceCollection services)
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+
             services.AddTransient<IProductRepository, ProductRepository>();
 
             return services;

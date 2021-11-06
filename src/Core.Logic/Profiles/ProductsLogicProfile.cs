@@ -9,7 +9,6 @@ namespace Core.Logic.Profiles
     {
         public ProductsLogicProfile()
         {
-            //FROMTO
             CreateMap<ProductDto, Product>();
             CreateMap<IEnumerable<ProductDto>, Products>()
                 .ForMember(p => p.Items, s => s.MapFrom(x => x));

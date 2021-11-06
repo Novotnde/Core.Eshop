@@ -4,6 +4,12 @@
 	  <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <None Remove="Migrations\**" />
+  </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.11" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />
@@ -23,11 +29,8 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Core.Api\Database.CatalogDb.Contracts\Database.CatalogDb.Contracts.csproj" />
-	  <ProjectReference Include="..\Core.Api\Core.Utils\Core.Utils.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Migrations" />
+	  <ProjectReference Include="..\Core.Utils\Core.Utils.csproj" />
+	  <ProjectReference Include="..\Database.CatalogDb.Contracts\Database.CatalogDb.Contracts.csproj" />
 	</ItemGroup>
 
 </Project>

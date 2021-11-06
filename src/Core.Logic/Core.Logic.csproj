@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core.ApiPipeline\Core.ApiPipeline.csproj" />
-    <ProjectReference Include="..\Core.Api\Core.Utils\Core.Utils.csproj" />
+    <ProjectReference Include="..\Database.CatalogDb.Contracts\Database.CatalogDb.Contracts.csproj" />
     <ProjectReference Include="..\Database.CatalogDb.EFCore\Database.CatalogDb.EFCore.csproj" />
     <ProjectReference Include="..\Core.Contracts\Core.Contracts.csproj" />
   </ItemGroup>

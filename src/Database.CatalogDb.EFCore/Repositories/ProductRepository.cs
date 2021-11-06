@@ -11,8 +11,8 @@ namespace Database.CatalogDb.EFCore.Service
 {
     public class ProductRepository : IProductRepository
     {
-        private CatalogDbContext _db;
         private readonly IMapper _mapper;
+        private CatalogDbContext _db;
 
         public ProductRepository(IMapper mapper, CatalogDbContext db)
         {
@@ -22,7 +22,7 @@ namespace Database.CatalogDb.EFCore.Service
 
         public async Task<IReadOnlyList<ProductDto>> GetProductsAsync(CancellationToken cancellationToken)
         {
-            var result = await _db.Products
+            var result = await _db.Product
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
             return _mapper.Map<List<ProductDto>>(result);
@@ -30,7 +30,7 @@ namespace Database.CatalogDb.EFCore.Service
 
         public async Task<ProductDto?> GetProductByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var result = await _db.Products
+            var result = await _db.Product
                 .AsNoTracking()
                 .Where(p => p.Id == id)
                 .FirstOrDefaultAsync(cancellationToken);
@@ -40,7 +40,7 @@ namespace Database.CatalogDb.EFCore.Service
         public async Task<bool> TryUpdateProductsDescriptionAsync(int id, string description, CancellationToken cancellationToken)
         {
 
-            var productToUpdate = await _db.Products
+            var productToUpdate = await _db.Product
                 .AsNoTracking()
                 .Where(p => p.Id == id)
                 .FirstOrDefaultAsync(cancellationToken);

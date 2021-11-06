@@ -1,5 +1,5 @@
-using Database.CatalogDb.Contracts.Dtos;
 using Core.Utils;
+using Database.CatalogDb.Contracts.Dtos;
 using Database.CatalogDb.EFCore.Entities;
 
 namespace Database.CatalogDb.EFCore.Profiles
@@ -8,7 +8,6 @@ namespace Database.CatalogDb.EFCore.Profiles
     {
         public ProductsDbProfile()
         {
-            //FROMTO
             CreateMap<ProductEntity, ProductDto>();
         }
     }
