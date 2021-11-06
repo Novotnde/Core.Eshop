@@ -1,4 +1,5 @@
 ﻿
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Core.Api.Models.Response;
@@ -11,7 +12,9 @@ using Microsoft.Extensions.Logging;
 namespace Core.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/products")]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+
     public class ProductController : Controller
     {
         private readonly ILogger<ProductController> _logger;
@@ -25,34 +28,43 @@ namespace Core.Api.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        [Route("{id}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetProductByIdAsync(int id)
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetProductByIdAsync(int id, CancellationToken cancellationToken)
         {
-            var product = await _productService.GetProductByIdAsync(id);
+            var product = await _productService.GetProductByIdAsync(id, cancellationToken);
+            if (product == null)
+            {
+                return NotFound(new ErrorResponse("","",""));
+            }
+
             var mapperProduct = _mapper.Map<ProductResponse>(product);
+
             return Ok(mapperProduct);
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(ProductsResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProductsResponse), StatusCodes.Status400BadRequest)]
-        public IActionResult GetProducts()
+        public async Task<IActionResult> GetProducts(CancellationToken cancellationToken)
         {
-            var products = _productService.GetProducts();
+            var products = await _productService.GetProducts(cancellationToken);
             var mapperProducts = _mapper.Map<ProductsResponse>(products);
             return Ok(mapperProducts);
         }
 
-        [HttpPut]
-        [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status400BadRequest)]
-        public IActionResult UpdateProductDescription(int id, string description)
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateProductDescription(int id, string description, CancellationToken cancellationToken)
         {
-            var result = _productService.UpdateProductDescriptionAsync(id, description);
-            return Ok(result);
+            var result = await _productService.TryUpdateProductDescriptionAsync(id, description, cancellationToken);
+            if (result == false)
+            {
+                return NotFound(new ErrorResponse("","",""));
+            }
+
+            return NoContent();
         }
     }
 }
