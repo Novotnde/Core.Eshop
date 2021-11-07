@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -15,8 +14,8 @@ using Microsoft.Extensions.Logging;
 namespace Core.Api.Controllers
 {
     [ApiController]
-    [ApiVersion( "1.0" )]
-    [Route( "api/v{version:apiVersion}/products" )]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/products")]
     [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
 
     public class ProductController : Controller
@@ -75,7 +74,7 @@ namespace Core.Api.Controllers
         /// This method will search for product by id and updates its decription.
         /// </summary>
         /// <param name="id">id</param>
-        /// <param name="description">description</param>
+        /// <param name="productDescriptionRequest">description</param>
         /// <param name="cancellationToken">cancellationToken</param>
         /// <returns>If update was successful method will return NoContent and if unsuccesful result will be NotFound</returns>
         [HttpPut("{id}")]

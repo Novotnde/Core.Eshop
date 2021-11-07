@@ -9,10 +9,4 @@
 		<PackageReference Include="System.ComponentModel.Annotations" Version="6.0.0-preview.4.21253.7" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
-	    <HintPath>..\..\..\..\..\usr\local\share\dotnet\shared\Microsoft.AspNetCore.App\5.0.10\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
-	  </Reference>
-	</ItemGroup>
-
 </Project>

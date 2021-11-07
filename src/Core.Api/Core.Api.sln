@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Api", "Core.Api\Core.A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4FA777F9-735D-42E2-A655-BE7A6DA84683}"
 	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
+		..\.editorconfig = ..\.editorconfig
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Contracts", "..\Core.Contracts\Core.Contracts.csproj", "{A032197C-ECDA-4D6C-A9C1-62E15B5577EA}"
@@ -22,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Utils", "..\Core.Utils
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.CatalogDb.Contracts", "..\Database.CatalogDb.Contracts\Database.CatalogDb.Contracts.csproj", "{714E5139-2A81-4247-A1A3-6E1946FF915F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Api.Tests", "..\..\tests\Core.Api.Tests\Core.Api.Tests.csproj", "{C5B06B9E-67D4-416A-AD3D-BBD4374B607D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Api.Tests", "..\..\tests\Core.Api.Tests\Core.Api.Tests.csproj", "{C5B06B9E-67D4-416A-AD3D-BBD4374B607D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

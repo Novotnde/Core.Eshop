@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Utils;
@@ -9,6 +10,11 @@ namespace Core.ApiPipeline.ErrorHandling
     {
         public static IActionResult ReturnValidationErrorResponse(ActionContext actionContext)
         {
+            if (actionContext == null)
+            {
+                throw new ArgumentNullException(nameof(actionContext));
+            }
+
             var errorsDescriptions = new List<string>();
             if (!actionContext.ModelState.IsValid)
             {
