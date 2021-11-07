@@ -10,29 +10,4 @@ MSSQL to run local database. To set up the database use the eshop.sql and update
 
 Unit tests
 unit test should reflect all endpoints
-InMemory is used as the mock method if you wish to use local database please comment out CustomWebApplicationFactory.ConfigureWebHost() mehod.
-This should be the following output
-
-public class CustomWebApplicationFactory<TStartup>
-    : WebApplicationFactory<TStartup> where TStartup : class
-{
-    public bool UsedInMemory = false;
-    protected override void ConfigureWebHost(IWebHostBuilder builder)
-    {
-       /*builder.ConfigureServices(services =>
-        {
-  services.RemoveAll<DbContextOptions<CatalogDbContext>>()
-                .AddDbContextPool<CatalogDbContext>(options =>
-                {
-options.UseInMemoryDatabase("InMemoryDbForTesting");
-                });
-            var sp = services.BuildServiceProvider();
-            using var scope = sp.CreateScope();
-            var scopedServices = scope.ServiceProvider;
-            var db = scopedServices.GetRequiredService<CatalogDbContext>();
-            db.Database.EnsureCreated();
-            SeedData.InitializeDbForTests(db);
-            UsedInMemory = true;
-        });*/
-    }
-}
+InMemory is used as the mock method if you wish to use local database please comment out insides of CustomWebApplicationFactory.ConfigureWebHost() mehod.
