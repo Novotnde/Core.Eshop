@@ -21,9 +21,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddDbContext<CatalogDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("CatalogDb")));
 
-            //Todo samostatna metoda
-            services.AddTransient<IProductRepository, ProductRepository>();
-
             return services;
         }
 

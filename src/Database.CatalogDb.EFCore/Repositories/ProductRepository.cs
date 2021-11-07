@@ -41,7 +41,6 @@ namespace Database.CatalogDb.EFCore.Service
         {
 
             var productToUpdate = await _db.Product
-                .AsNoTracking()
                 .Where(p => p.Id == id)
                 .FirstOrDefaultAsync(cancellationToken);
 
@@ -51,6 +50,7 @@ namespace Database.CatalogDb.EFCore.Service
             }
 
             productToUpdate.Description = description;
+            _db.Update(productToUpdate);
             await _db.SaveChangesAsync(cancellationToken);
             return true;
         }

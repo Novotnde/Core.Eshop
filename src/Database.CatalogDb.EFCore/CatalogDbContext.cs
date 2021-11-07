@@ -7,7 +7,7 @@ namespace Database.CatalogDb.EFCore
     public class CatalogDbContext : DbContext
     {
         public CatalogDbContext(DbContextOptions<CatalogDbContext> options)
-            : base(options)
+           : base(options)
         {
         }
 
@@ -15,7 +15,10 @@ namespace Database.CatalogDb.EFCore
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            if (modelBuilder == null) throw new ArgumentNullException(nameof(modelBuilder));
+            if (modelBuilder == null)
+            {
+                throw new ArgumentNullException(nameof(modelBuilder));
+            }
 
             modelBuilder.Entity<ProductEntity>().ToTable(nameof(Product));
         }
