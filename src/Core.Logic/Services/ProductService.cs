@@ -26,9 +26,9 @@ namespace Core.Logic.Service
             return mappedProduct;
         }
 
-        public async Task<Products> GetProducts(CancellationToken cancellationToken)
+        public async Task<Products> GetProducts(int? limit, int? offset, CancellationToken cancellationToken)
         {
-            var products = await _productRepository.GetProductsAsync(cancellationToken);
+            var products = await _productRepository.GetProductsAsync(limit, offset, cancellationToken);
             var mappedProducts = _mapper.Map<Products>(products);
             return mappedProducts;
         }

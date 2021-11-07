@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Database.CatalogDb.Contracts.Contracts;
 using Database.CatalogDb.Contracts.Dtos;
+using Database.CatalogDb.EFCore.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Database.CatalogDb.EFCore.Service
+namespace Database.CatalogDb.EFCore.Repositories
 {
     public class ProductRepository : IProductRepository
     {
@@ -20,11 +21,23 @@ namespace Database.CatalogDb.EFCore.Service
             _mapper = mapper;
         }
 
-        public async Task<IReadOnlyList<ProductDto>> GetProductsAsync(CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<ProductDto>> GetProductsAsync(int? limit, int? offset, CancellationToken cancellationToken)
         {
-            var result = await _db.Product
+            IQueryable<ProductEntity> productsQueryable = _db.Product
                 .AsNoTracking()
+                .OrderBy(x => x.Name)
+                .ThenBy(y => y.Id);
+
+            if (offset.HasValue && limit.HasValue)
+            {
+                productsQueryable = productsQueryable
+                    .Skip(offset.Value)
+                    .Take(limit.Value);
+            }
+
+            var result = await productsQueryable
                 .ToListAsync(cancellationToken);
+
             return _mapper.Map<List<ProductDto>>(result);
         }
 

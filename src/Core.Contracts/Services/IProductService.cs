@@ -9,7 +9,7 @@ namespace Core.Contracts.Contracts
 {
     public interface IProductService
     {
-        Task<Products> GetProducts(CancellationToken cancellationToken);
+        Task<Products> GetProducts(int? limit, int? offset, CancellationToken cancellationToken);
 
         Task<Product?> GetProductByIdAsync(int id, CancellationToken cancellationToken);
 

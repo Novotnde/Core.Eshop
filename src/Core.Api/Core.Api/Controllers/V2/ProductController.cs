@@ -1,19 +1,22 @@
-﻿
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Core.Api.Models.Response;
+using Core.Api.Models.Request.V2;
+using Core.Api.Models.Response.V2;
+using Core.ApiPipeline.ErrorHandling;
 using Core.Contracts.Contracts;
-using Core.Contracts.Models;
+using Core.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Core.Api.Controllers
+namespace Core.Api.Controllers.V2
 {
     [ApiController]
-    [Route("api/products")]
-    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
+    [ApiVersion( "2.0" )]
+    [Route( "api/v{version:apiVersion}/products" )]
+    [ProducesResponseType(typeof(ValidationErrorResponse), StatusCodes.Status400BadRequest)]
 
     public class ProductController : Controller
     {
@@ -42,7 +45,10 @@ namespace Core.Api.Controllers
             var product = await _productService.GetProductByIdAsync(id, cancellationToken);
             if (product == null)
             {
-                return NotFound(new ErrorResponse("Get product by id", "there is no product with such id", "Status404NotFound"));
+                return NotFound(new ErrorResponse(
+                    ErrorTypes.ProductNotFound,
+                    ErrorDescription.ProductNotFound,
+                    HttpContext.TraceIdentifier));
             }
 
             var mapperProduct = _mapper.Map<ProductResponse>(product);
@@ -57,9 +63,17 @@ namespace Core.Api.Controllers
         /// <returns>This method should return all products or StatusCodes.Status404NotFound</returns>
         [HttpGet]
         [ProducesResponseType(typeof(ProductsResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetProducts(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetProducts([FromQuery]ProductsRequest productsRequest, CancellationToken cancellationToken)
         {
-            var products = await _productService.GetProducts(cancellationToken);
+            if (productsRequest == null)
+            {
+                throw new ArgumentNullException(nameof(productsRequest));
+            }
+
+            var products = await _productService.GetProducts(
+                productsRequest.Limit,
+                productsRequest.Offset,
+                cancellationToken);
             var mapperProducts = _mapper.Map<ProductsResponse>(products);
             return Ok(mapperProducts);
         }
@@ -74,12 +88,23 @@ namespace Core.Api.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateProductDescription(int id, string description, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateProductDescription(
+            int id,
+            [FromBody]UpdateProductDescriptionRequest productDescriptionRequest,
+            CancellationToken cancellationToken)
         {
-            var result = await _productService.TryUpdateProductDescriptionAsync(id, description, cancellationToken);
+            if (productDescriptionRequest == null)
+            {
+                throw new ArgumentNullException(nameof(productDescriptionRequest));
+            }
+
+            var result = await _productService.TryUpdateProductDescriptionAsync(id, productDescriptionRequest.Description, cancellationToken);
             if (result == false)
             {
-                return NotFound(new ErrorResponse("Update product error","update of product desc returned false", "Status404NotFound"));
+                return NotFound(new ErrorResponse(
+                    ErrorTypes.ProductNotFound,
+                    ErrorDescription.ProductNotFound,
+                    HttpContext.TraceIdentifier));
             }
 
             return NoContent();

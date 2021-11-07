@@ -7,7 +7,7 @@ namespace Database.CatalogDb.Contracts.Contracts
 {
     public interface IProductRepository
     {
-        Task<IReadOnlyList<ProductDto>> GetProductsAsync(CancellationToken cancellationToken);
+        Task<IReadOnlyList<ProductDto>> GetProductsAsync(int? limit, int? offset, CancellationToken cancellationToken);
 
         Task<ProductDto?> GetProductByIdAsync(int id, CancellationToken cancellationToken);
 

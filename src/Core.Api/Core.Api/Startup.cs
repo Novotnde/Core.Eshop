@@ -1,16 +1,16 @@
-using System.Collections.Generic;
-using Core.Api.Models.Response;
 using Core.Api.Profiles;
+using Core.ApiPipeline;
 using Core.ApiPipeline.ErrorHandling;
 using Core.Logic.Profiles;
 using Database.CatalogDb.EFCore.Profiles;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Core.Api
 {
@@ -26,15 +26,10 @@ namespace Core.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Core.Api", Version = "v1" });
-            });
-
-            services.AddAutoMapper(typeof(ProductsLogicProfile));
-            services.AddAutoMapper(typeof(ProductsApiProfile));
-            services.AddAutoMapper(typeof(ProductsDbProfile));
+            services.AddAutoMapper(
+                typeof(ProductsLogicProfile),
+                typeof(ProductsApiProfile),
+                typeof(ProductsDbProfile));
 
             services.AddControllers();
 
@@ -42,24 +37,37 @@ namespace Core.Api
             services.AddServicesForDatabaseCatalogEFCore();
             services.AddSqlCatalogDb(_configuration);
 
-            services.AddApiVersioning(setup =>
-            {
-                setup.DefaultApiVersion = new ApiVersion(1, 0);
-                setup.AssumeDefaultVersionWhenUnspecified = true;
-                setup.ReportApiVersions = true;
-                setup.ApiVersionReader = new QueryStringApiVersionReader("version");
-            });
+            services.AddApiVersioning(
+                options =>
+                {
+                    options.ReportApiVersions = true;
+                } );
+            services.AddVersionedApiExplorer(
+                options =>
+                {
+                    options.GroupNameFormat = "'v'VVV";
 
+                    options.SubstituteApiVersionInUrl = true;
+                } );
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerConfigurationOptions>();
             services.AddSwaggerGen();
+            services.ConfigureApi();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,IApiVersionDescriptionProvider provider )
         {
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Core.Api v1"));
-
+            app.UseSwaggerUI(
+                options =>
+                {
+                    // build a swagger endpoint for each discovered API version
+                    foreach ( var description in provider.ApiVersionDescriptions )
+                    {
+                        options.SwaggerEndpoint( $"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant() );
+                    }
+                } );
             app.UseRouting();
 
             app.UseAuthorization();
@@ -70,23 +78,6 @@ namespace Core.Api
             });
 
             app.UseApiVersioning();
-        }
-
-        private static IActionResult ReturnValidationErrorResponse(ActionContext actionContext)
-        {
-            var errorsDescriptions = new List<string>();
-            if (!actionContext.ModelState.IsValid)
-            {
-                foreach (var state in actionContext.ModelState)
-                {
-                    foreach (var error in state.Value.Errors)
-                    {
-                        errorsDescriptions.Add(error.ErrorMessage);
-                    }
-                }
-            }
-
-            return new BadRequestObjectResult(new ValidationErrorResponse("MODEL_VALIDATION_FAILURE", errorsDescriptions));
         }
     }
 }
