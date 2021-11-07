@@ -12,13 +12,11 @@ namespace Core.Api.Tests
     public class CustomWebApplicationFactory<TStartup>
         : WebApplicationFactory<TStartup> where TStartup : class
     {
-
+        public bool UsedInMemory = false;
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            
-            builder.ConfigureServices(services =>
+           builder.ConfigureServices(services =>
             {
-
                 services.RemoveAll<DbContextOptions<CatalogDbContext>>()
                     .AddDbContextPool<CatalogDbContext>(options =>
                     {
@@ -33,14 +31,8 @@ namespace Core.Api.Tests
                
                 db.Database.EnsureCreated();
 
-                try
-                {
-                    SeedData.InitializeDbForTests(db);
-                }
-                catch (Exception ex)
-                {
-                        
-                }
+                SeedData.InitializeDbForTests(db);
+                UsedInMemory = true;
             });
         }
     }

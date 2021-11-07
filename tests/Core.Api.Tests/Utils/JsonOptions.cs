@@ -18,6 +18,5 @@ namespace Core.Api.Tests.Utils
 
             return options;
         }
-       
     }
 }

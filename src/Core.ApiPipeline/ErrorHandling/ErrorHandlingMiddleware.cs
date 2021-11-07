@@ -52,7 +52,7 @@ namespace Core.ApiPipeline.ErrorHandling
 
                 var error = new ErrorResponse("UNEXPECTED_ERROR", ex.Message, httpContext.TraceIdentifier);
 
-                await httpContext.Response.WriteAsync( JsonSerializer.Serialize(error));
+                await httpContext.Response.WriteAsync(JsonSerializer.Serialize(error));
             }
         }
     }

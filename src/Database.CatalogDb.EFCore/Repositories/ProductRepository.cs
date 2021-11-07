@@ -52,7 +52,6 @@ namespace Database.CatalogDb.EFCore.Repositories
 
         public async Task<bool> TryUpdateProductsDescriptionAsync(int id, string description, CancellationToken cancellationToken)
         {
-
             var productToUpdate = await _db.Product
                 .Where(p => p.Id == id)
                 .FirstOrDefaultAsync(cancellationToken);

@@ -18,10 +18,12 @@ namespace Core.Api.Tests.ContollerTests.V2
     public class ProductControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly HttpClient _client;
+        private bool _usedInMemoryDatabase = false;
 
         public ProductControllerTests(CustomWebApplicationFactory<Startup> factory)
         {
             _client = factory.CreateClient();
+            _usedInMemoryDatabase = factory.UsedInMemory;
         }
 
         [Fact]
@@ -31,21 +33,25 @@ namespace Core.Api.Tests.ContollerTests.V2
 
             httpResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            await using var streamResponse = await httpResponse.Content.ReadAsStreamAsync();
-
-            var products = await JsonSerializer.DeserializeAsync<Products>(streamResponse, JsonOptions.ReturnOptions());
-
-            products.Items.Should().HaveCount(3);
-            var productsSeed = SeedData.GetsProductsSeed();
-            foreach (var product in productsSeed)
+            if (_usedInMemoryDatabase)
             {
-                products.Items.Should().Contain(x => x.Id == product.Id
-                                                     && x.Description == product.Description
-                                                     && x.Name == product.Name
-                                                     && x.Price == product.Price
-                                                     && x.ImgUri == product.ImgUri);
+                await using var streamResponse = await httpResponse.Content.ReadAsStreamAsync();
 
+                var products = await JsonSerializer.DeserializeAsync<Products>(streamResponse, JsonOptions.ReturnOptions());
+
+                products.Items.Should().HaveCount(3);
+                var productsSeed = SeedData.GetsProductsSeed();
+                foreach (var product in productsSeed)
+                {
+                    products.Items.Should().Contain(x => x.Id == product.Id
+                                                         && x.Description == product.Description
+                                                         && x.Name == product.Name
+                                                         && x.Price == product.Price
+                                                         && x.ImgUri == product.ImgUri);
+
+                }
             }
+            
         }
 
 

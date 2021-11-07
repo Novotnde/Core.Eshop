@@ -4,12 +4,10 @@ using Core.ApiPipeline.ErrorHandling;
 using Core.Logic.Profiles;
 using Database.CatalogDb.EFCore.Profiles;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Core.Api
@@ -41,21 +39,21 @@ namespace Core.Api
                 options =>
                 {
                     options.ReportApiVersions = true;
-                } );
+                });
             services.AddVersionedApiExplorer(
                 options =>
                 {
                     options.GroupNameFormat = "'v'VVV";
 
                     options.SubstituteApiVersionInUrl = true;
-                } );
+                });
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, SwaggerConfigurationOptions>();
             services.AddSwaggerGen();
             services.ConfigureApi();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,IApiVersionDescriptionProvider provider )
+        public void Configure(IApplicationBuilder app, IApiVersionDescriptionProvider provider)
         {
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseSwagger();
@@ -63,11 +61,11 @@ namespace Core.Api
                 options =>
                 {
                     // build a swagger endpoint for each discovered API version
-                    foreach ( var description in provider.ApiVersionDescriptions )
+                    foreach (var description in provider.ApiVersionDescriptions)
                     {
-                        options.SwaggerEndpoint( $"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant() );
+                        options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
                     }
-                } );
+                });
             app.UseRouting();
 
             app.UseAuthorization();
