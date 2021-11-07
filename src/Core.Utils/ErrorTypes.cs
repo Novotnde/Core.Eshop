@@ -4,5 +4,6 @@ namespace Core.Utils
     {
         public const string ProductNotFound = "ProductNotFound";
         public const string ModelValidationFailure = "ModelValidationFailure";
+        public const string UnexpectedError = "UnexpectedError";
     }
 }

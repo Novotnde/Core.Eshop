@@ -2,6 +2,7 @@
 using System.Net.Mime;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Core.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
@@ -50,7 +51,7 @@ namespace Core.ApiPipeline.ErrorHandling
                 httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 httpContext.Response.ContentType = MediaTypeNames.Application.Json;
 
-                var error = new ErrorResponse("UNEXPECTED_ERROR", ex.Message, httpContext.TraceIdentifier);
+                var error = new ErrorResponse(ErrorTypes.UnexpectedError, ex.Message, httpContext.TraceIdentifier);
 
                 await httpContext.Response.WriteAsync(JsonSerializer.Serialize(error));
             }
