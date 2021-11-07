@@ -9,6 +9,6 @@ namespace Core.Utils
     public static class SwaggerInfomation
     {
         public const string Title = "Eshop API";
-        public const string Description = "A sample application with Swagger, Swashbuckle, and API versioning.";
+        public const string Description = "A REST API service providing available product of an eshop";
     }
 }
