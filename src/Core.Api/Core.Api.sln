@@ -18,9 +18,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.ApiPipeline", "..\Core
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.CatalogDb.EFCore", "..\Database.CatalogDb.EFCore\Database.CatalogDb.EFCore.csproj", "{ADB55766-AA8B-4FF8-9AC7-CBE234365F22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Utils", "..\Core.Utils\Core.Utils.csproj", "{AAEF7C61-98E8-4A2B-A877-A9D2FF957491}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Utils", "..\Core.Utils\Core.Utils.csproj", "{AAEF7C61-98E8-4A2B-A877-A9D2FF957491}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database.CatalogDb.Contracts", "..\Database.CatalogDb.Contracts\Database.CatalogDb.Contracts.csproj", "{714E5139-2A81-4247-A1A3-6E1946FF915F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database.CatalogDb.Contracts", "..\Database.CatalogDb.Contracts\Database.CatalogDb.Contracts.csproj", "{714E5139-2A81-4247-A1A3-6E1946FF915F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Api.Tests", "..\..\tests\Core.Api.Tests\Core.Api.Tests.csproj", "{C5B06B9E-67D4-416A-AD3D-BBD4374B607D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{714E5139-2A81-4247-A1A3-6E1946FF915F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{714E5139-2A81-4247-A1A3-6E1946FF915F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{714E5139-2A81-4247-A1A3-6E1946FF915F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5B06B9E-67D4-416A-AD3D-BBD4374B607D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5B06B9E-67D4-416A-AD3D-BBD4374B607D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5B06B9E-67D4-416A-AD3D-BBD4374B607D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5B06B9E-67D4-416A-AD3D-BBD4374B607D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

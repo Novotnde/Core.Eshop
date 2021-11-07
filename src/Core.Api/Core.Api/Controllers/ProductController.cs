@@ -28,6 +28,12 @@ namespace Core.Api.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Search for product by id.
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <param name="cancellationToken">cancellationToken</param>
+        /// <returns>This method should return product based on its id or StatusCodes.Status404NotFound</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ProductResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
@@ -36,7 +42,7 @@ namespace Core.Api.Controllers
             var product = await _productService.GetProductByIdAsync(id, cancellationToken);
             if (product == null)
             {
-                return NotFound(new ErrorResponse("","",""));
+                return NotFound(new ErrorResponse("Get product by id", "there is no product with such id", "Status404NotFound"));
             }
 
             var mapperProduct = _mapper.Map<ProductResponse>(product);
@@ -44,6 +50,11 @@ namespace Core.Api.Controllers
             return Ok(mapperProduct);
         }
 
+        /// <summary>
+        /// Get all products.
+        /// </summary>
+        /// <param name="cancellationToken">cancellationToken</param>
+        /// <returns>This method should return all products or StatusCodes.Status404NotFound</returns>
         [HttpGet]
         [ProducesResponseType(typeof(ProductsResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetProducts(CancellationToken cancellationToken)
@@ -53,6 +64,13 @@ namespace Core.Api.Controllers
             return Ok(mapperProducts);
         }
 
+        /// <summary>
+        /// This method will search for product by id and updates its decription.
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <param name="description">description</param>
+        /// <param name="cancellationToken">cancellationToken</param>
+        /// <returns>If update was successful method will return NoContent and if unsuccesful result will be NotFound</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
@@ -61,7 +79,7 @@ namespace Core.Api.Controllers
             var result = await _productService.TryUpdateProductDescriptionAsync(id, description, cancellationToken);
             if (result == false)
             {
-                return NotFound(new ErrorResponse("","",""));
+                return NotFound(new ErrorResponse("Update product error","update of product desc returned false", "Status404NotFound"));
             }
 
             return NoContent();

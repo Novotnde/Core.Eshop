@@ -1,4 +1,5 @@
-﻿using Core.Api.Models.Response;
+﻿using Core.Api.Models.Request;
+using Core.Api.Models.Response;
 using Core.ApiPipeline;
 using Core.Contracts.Models;
 using Core.Utils;
@@ -11,6 +12,7 @@ namespace Core.Api.Profiles
         {
             CreateValidMap<Products, ProductsResponse>();
             CreateValidMap<Product, ProductResponse>();
+            CreateValidMap<UpdateProductDescriptionRequest, Product>();
         }
     }
 }
