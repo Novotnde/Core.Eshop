@@ -11,3 +11,6 @@ MSSQL to run local database. To set up the database use the eshop.sql and update
 Unit tests
 unit test should reflect all endpoints
 InMemory is used as the mock method if you wish to use local database please comment out insides of CustomWebApplicationFactory.ConfigureWebHost() mehod.
+
+Versioning
+- used Uri versioning, supported Versions V1 && V2
