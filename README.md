@@ -6,7 +6,7 @@ REST API service that provides all available products of an e-shop and enables p
 
 Prerequisites to run the project 
 Visual Studio with running .net5.0. it is also possible to JetBrains Rider. Any other IDE's were not tested.
-MSSQL to run local database. To set up the database use the eshop.sql and update connection strings in appsetting.json to reflect your local setting.
+MSSQL to run local database update connection strings in appsetting.json to reflect your local setting.
 
 Unit tests
 unit test should reflect all endpoints
